@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap');
 * {
     margin: 0;
     padding: 0;
@@ -5,6 +6,8 @@
 /*body */
 body {
     background: #A2A1CE;
+    height: 100%;
+    width: 100%;
 }
 /*div */
 /*container */
@@ -30,7 +33,7 @@ body {
 #container .logo {
     grid-area: logo;
     
-    padding-left: 20px;
+    padding-left: 70px;
     
 }
 
@@ -87,6 +90,30 @@ body {
 /*display */
 #container .display {
     grid-area: display;
+    position: relative;
+    left: 100px;
+    top: 100px;
+    color: #FFF;
+    height: 50%;
+}
+.display h2{
+    font-family: 'Dancing Script', cursive;
+    font-size:50px ;
+}
+.display span{
+    color: #31DCF3;
+   
+}
+
+.display button{
+    margin-top: 20px;
+    color: #31DCF3;
+    width: 140px;
+    height: 40px;
+    border-radius: 15px;
+    border: 4px solid #31DCF3;
+    background: #1C1454;
+    mix-blend-mode: screen;
 }
 /*image */
 #container .image {
@@ -100,3 +127,5 @@ body {
     background: url(<path-to-image>), rgba(211, 211, 211, 0.075) 50% / cover no-repeat;
     border-radius: 400px;
 }
+
+
