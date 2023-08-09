@@ -1,0 +1,102 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+/*body */
+body {
+    background: #A2A1CE;
+}
+/*div */
+/*container */
+#container {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#2d6e91,#011018);
+    display: grid;
+    color: white;
+    grid-template-areas: 
+    'logo logo nav'
+    'display display image';
+}
+#container .nav ,.logo {
+    width: 100%;
+    height: 64px;
+    position: sticky;
+    margin-top: 20px;
+    background: #073C7A;
+    height: 50px;
+}
+/*Logo */
+#container .logo {
+    grid-area: logo;
+    
+    padding-left: 20px;
+    
+}
+
+.logo h4 {
+    position: relative;
+    top : 10px;
+    left: 10px;
+    color: #FFF;
+    font-family: Inter;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.logo img{
+    float: left;
+    position: relative;
+    bottom: 15px;
+    background-color: rgba(255, 255, 255, 0.534);
+    border-radius: 90px;
+}
+/*navbar */
+#container .nav {
+    grid-area: nav;
+}
+
+.nav ul {
+    list-style: none;
+    width: 465px;
+    position: relative;
+    top: 10px;
+    left: 25%;
+    display: flex ;
+    color: white;
+    justify-content: space-around;
+    text-align: center;
+    font-family: Inter;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    
+}
+.nav ul li {
+    display: inherit ;
+    
+}
+
+.nav ul a {
+    color: white;
+    text-decoration: none;
+}
+/*display */
+#container .display {
+    grid-area: display;
+}
+/*image */
+#container .image {
+    grid-area: image;
+    position: relative;
+    padding-left: 25%;
+}
+.image img {
+    width: 445px;
+    height: 467px;
+    background: url(<path-to-image>), rgba(211, 211, 211, 0.075) 50% / cover no-repeat;
+    border-radius: 400px;
+}
