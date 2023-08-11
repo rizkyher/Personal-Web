@@ -125,6 +125,7 @@ body {
     height: 467px;
     background: url(<path-to-image>), rgba(211, 211, 211, 0.075) 50% / cover no-repeat;
     border-radius: 400px;
+    background-color: #073C7A;
 }
 
 
