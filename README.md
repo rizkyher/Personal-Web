@@ -1,1 +1,1 @@
-Bagaimana menggunakan aplikasi ini
+Bagaimana menggunakan web / aplikasi ini
