@@ -1,1 +1,4 @@
-Bagaimana menggunakan web / aplikasi ini
+# Bagaimana menggunakan web / aplikasi ini
+## Mencoba
+**Ini text Tebal**
+~~dahdkasdhas~~ Salah Ketik
