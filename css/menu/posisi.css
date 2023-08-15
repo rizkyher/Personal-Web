@@ -1,0 +1,49 @@
+* {
+    margin: 20px;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    scroll-behavior: smooth;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.static {
+    border: 1rem solid blue;
+    position: static;
+    
+}
+
+.relative  {
+    border: 1rem solid blue;
+    position: relative;
+    width: 400px;
+    height: 200px;
+}
+
+.absolute {
+    border: 1rem solid blue;
+    position: absolute;
+    top: 80px;
+  right: 0;
+  width: 200px;
+  height: 100px;
+}
+
+.fixed {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 300px;
+    border: 3px solid #73AD21;
+}
+
+.sticky {
+    border: 1rem solid blue;
+    position: sticky;
+
+    top: 0;
+     background-color: green;
+}
+

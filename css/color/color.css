@@ -55,3 +55,40 @@ span {
     background: var(--main-color);
     box-shadow: 0 0 1rem var(--main-color);
 }
+
+.about {
+    background: var(--second-bg-color);
+}
+
+.services {
+    background: var(--bg-color);
+}
+
+.services-container .services-box {
+    background: var(--second-bg-color);
+    border: .2rem solid var(--bg-color);
+}
+
+.services-container .services-box:hover {
+    border-color: var(--main-color) ;
+}
+
+.services-box i {
+    color: var(--main-color);
+}
+.tugas{
+    background: var(--bg-color);
+}
+
+.tugas-container .tugas-box {
+    background: var(--second-bg-color);
+    border: .2rem solid var(--bg-color);
+}
+
+.tugas-container .tugas-box:hover {
+    border-color: var(--main-color) ;
+}
+
+.tugas-box i {
+    color: var(--main-color);
+}
