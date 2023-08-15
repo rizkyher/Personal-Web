@@ -1,5 +1,5 @@
 :root {
-    --bg-color:linear-gradient(#0d5379,#00010291);
+    --bg-color:linear-gradient(#0d5379,#003163bb);
     --second-bg-color:linear-gradient(#2d6e91,#03334d);
     --text-color:#fff;
     --main-color:#0ef;
@@ -91,4 +91,32 @@ span {
 
 .tugas-box i {
     color: var(--main-color);
+}
+
+.contact {
+    background: var(--bg-color);
+}
+.contact form .input-box input,
+.contact form textarea {
+    color: var(--text-color);
+    background: var(--second-bg-color);
+}
+.contact form ::placeholder {
+    color:var(--text-color) ;
+}
+
+.footer {
+    background: var(--second-bg-color);
+}
+
+.footer-icontop a {
+    background: var(--main-color);
+}
+
+.footer-icontop a i {
+    color: var(--second-bg-color);
+}
+
+.footer-icontop a:hover {
+    box-shadow: 0 0 1rem var(--main-color);
 }

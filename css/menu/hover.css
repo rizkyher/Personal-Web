@@ -1,3 +1,4 @@
+@import url(./responsive.css);
 :root {
     --bg-color:linear-gradient(#0d5379,#00010291);
     --second-bg-color:linear-gradient(#2d6e91,#03334d);
