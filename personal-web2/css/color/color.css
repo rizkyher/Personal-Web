@@ -1,0 +1,122 @@
+:root {
+    --bg-color:linear-gradient(#0d5379,#003163bb);
+    --second-bg-color:linear-gradient(#2d6e91,#03334d);
+    --text-color:#fff;
+    --main-color:#0ef;
+    --border-color:#1C1454
+}
+
+body{
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+
+.header {
+    background: var(--bg-color);
+}
+
+.logo{
+    color: var(--text-color);
+}
+.navbar a{
+    color: var(--text-color);
+}
+
+.navbar a:hover,
+.navbar a.active {
+    color: var(--main-color);
+}
+
+#menu-icon {
+    color: var(--text-color);
+}
+
+span {
+    color: var(--main-color);
+}
+
+.home-content h1 {
+    color: var(--main-color);
+}
+
+.social-media a {
+    color: var(--text-color);
+    border: .2rem solid var(--main-color);
+}
+
+.social-media a:hover {
+    background: var(--main-color);
+    columns: var(--second-bg-color);
+    box-shadow: 0 0 1rem var(--main-color);
+}
+
+.btn {
+    background: var(--main-color);
+    box-shadow: 0 0 1rem var(--main-color);
+}
+
+.about {
+    background: var(--second-bg-color);
+}
+
+.services {
+    background: var(--bg-color);
+}
+
+.services-container .services-box {
+    background: var(--second-bg-color);
+    border: .2rem solid var(--bg-color);
+}
+
+.services-container .services-box:hover {
+    border-color: var(--main-color) ;
+}
+
+.services-box i {
+    color: var(--main-color);
+}
+.tugas{
+    background: var(--bg-color);
+}
+
+.tugas-container .tugas-box {
+    background: var(--second-bg-color);
+    border: .2rem solid var(--bg-color);
+}
+
+.tugas-container .tugas-box:hover {
+    border-color: var(--main-color) ;
+}
+
+.tugas-box i {
+    color: var(--main-color);
+}
+
+.contact {
+    background: var(--bg-color);
+}
+.contact form .input-box input,
+.contact form textarea {
+    color: var(--text-color);
+    background: var(--second-bg-color);
+}
+.contact form ::placeholder {
+    color:var(--text-color) ;
+}
+
+.footer {
+    background: var(--second-bg-color);
+}
+
+.footer-icontop a {
+    background: var(--main-color);
+}
+
+.footer-icontop a i {
+    color: var(--second-bg-color);
+}
+
+.footer-icontop a:hover {
+    box-shadow: 0 0 1rem var(--main-color);
+}
