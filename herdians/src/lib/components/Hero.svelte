@@ -85,7 +85,7 @@
 
       <div class="image-frame">
         <img
-          src="https://i.pinimg.com/1200x/b4/4e/64/b44e64a9790169f518b6c8f612263944.jpg"
+          src="/rizky.jpeg"
           alt="Profile"
           class="profile-img"
           loading="eager"
