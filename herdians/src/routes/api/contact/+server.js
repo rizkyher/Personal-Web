@@ -1,13 +1,12 @@
 // src/routes/api/contact/+server.js
 import { json } from '@sveltejs/kit';
 import nodemailer from 'nodemailer';
-import { EMAIL_USER, EMAIL_PASS } from '$env/static/private'; // SvelteKit aman membaca .env
+import { EMAIL_USER, EMAIL_PASS } from '$env/static/private';
 
 export async function POST({ request }) {
     try {
         const { name, email, subject, message } = await request.json();
 
-        // Konfigurasi Server Pengirim (Nodemailer)
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -16,11 +15,10 @@ export async function POST({ request }) {
             }
         });
 
-        // Konten Email
         const mailOptions = {
-            from: `"${name}" <${email}>`, // Nama pengirim di inbox Anda
-            to: EMAIL_USER, // Dikirim ke email Anda sendiri
-            replyTo: email, // Jika Anda klik 'Reply', otomatis membalas ke pengirim
+            from: `"${name}" <${email}>`,
+            to: EMAIL_USER,
+            replyTo: email,
             subject: `Portfolio Inisiasi: ${subject || 'Proyek Baru'}`,
             html: `
                 <div style="font-family: sans-serif; padding: 20px; background: #f4f5f7; border-radius: 10px;">
@@ -34,7 +32,6 @@ export async function POST({ request }) {
             `
         };
 
-        // Kirim Email
         await transporter.sendMail(mailOptions);
         return json({ success: true, message: 'Email berhasil terkirim.' }, { status: 200 });
 
