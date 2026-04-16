@@ -2,86 +2,86 @@
   import { onMount } from 'svelte';
   import Icon from '@iconify/svelte';
 
-  // Tech stack diambil berdasarkan riwayat pertanyaan dan diskusi Anda dengan saya
   const techStack = [
-    { 
-      category: "Frontend", 
-      tools: "Svelte 5, React / Next.js, Vue / Nuxt, Tailwind CSS",
-      icon: "ph:browsers-light"
-    },
-    { 
-      category: "Backend & Runtime", 
-      tools: "Laravel, Node.js, Bun",
-      icon: "ph:hard-drives-light"
-    },
-    { 
-      category: "Mobile & Design", 
-      tools: "Flutter, Figma",
-      icon: "ph:devices-light"
-    }
+    { category: "Frontend",          tools: "Svelte 5, React / Next.js, Vue / Nuxt, Tailwind CSS", icon: "ph:browsers-light" },
+    { category: "Backend & Runtime", tools: "Laravel, Node.js, Bun",                               icon: "ph:hard-drives-light" },
+    { category: "Mobile & Design",   tools: "Flutter, Figma",                                      icon: "ph:devices-light" },
   ];
 
-  let visible = $state(false);
+  let visible  = $state(false);
   let sectionEl;
 
   onMount(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) visible = true; },
-      { threshold: 0.2 }
+    const io = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) visible = true; },
+      { threshold: 0.15 }
     );
-    if (sectionEl) observer.observe(sectionEl);
-    return () => observer.disconnect();
+    if (sectionEl) io.observe(sectionEl);
+    return () => io.disconnect();
   });
 </script>
 
 <section id="about" class="about-minimal" bind:this={sectionEl} class:is-visible={visible}>
   <div class="minimal-inner">
-    
+
     <div class="minimal-header">
-      <p class="eyebrow">— Profil & Arsitektur</p>
+      <p class="eyebrow">Profil & Arsitektur</p>
     </div>
 
     <div class="content-split">
-      
+
       <div class="split-left fade-up">
         <h2 class="headline">
-          Arsitektur rapi. <br>
+          Arsitektur rapi.<br>
           <em>Performa tinggi.</em>
         </h2>
         <p class="bio">
-          Sebagai Full Stack Developer dengan pengalaman lebih dari 2 tahun, saya berfokus pada penyelesaian masalah melalui kode yang efisien, mudah dirawat, dan *scalable*. Dari antarmuka web yang responsif hingga arsitektur server yang tangguh.
+          Sebagai Full Stack Developer dengan pengalaman lebih dari 2 tahun, saya berfokus pada penyelesaian masalah melalui kode yang efisien, mudah dirawat, dan <em>scalable</em>. Dari antarmuka web yang responsif hingga arsitektur server yang tangguh.
         </p>
 
         <div class="stats-row">
           <div class="stat">
             <span class="num">10+</span>
-            <span class="label">Proyek</span>
+            <span class="lbl">Proyek</span>
           </div>
+          <div class="stat-div"></div>
           <div class="stat">
             <span class="num">2+</span>
-            <span class="label">Tahun Exp.</span>
+            <span class="lbl">Tahun Exp.</span>
+          </div>
+          <div class="stat-div"></div>
+          <div class="stat">
+            <span class="num">5+</span>
+            <span class="lbl">Klien</span>
           </div>
         </div>
+
+        <!-- Desktop CV button -->
+        <a href="#" class="btn-clean fade-up desktop-cv" style="transition-delay:0.45s">
+          Unduh Resume (PDF)
+          <Icon icon="ph:arrow-right-light" width="18" height="18" />
+        </a>
       </div>
 
-      <div class="split-right">
+      <div class="split-right fade-up" style="transition-delay:0.1s">
         <div class="tech-list">
           {#each techStack as tech, i}
-            <div class="tech-row fade-up" style="transition-delay: {0.15 + (i * 0.1)}s">
+            <div class="tech-row fade-up" style="transition-delay:{0.15 + i * 0.1}s">
               <div class="tech-info">
                 <span class="tech-cat">{tech.category}</span>
                 <span class="tech-tools">{tech.tools}</span>
               </div>
               <div class="tech-icon">
-                <Icon icon={tech.icon} width="24" />
+                <Icon icon={tech.icon} width="24" height="24" />
               </div>
             </div>
           {/each}
         </div>
-        
-        <a href="#" class="btn-clean fade-up" style="transition-delay: 0.45s">
+
+        <!-- Mobile CV button (shown below tech list) -->
+        <a href="#" class="btn-clean fade-up mobile-cv" style="transition-delay:0.5s">
           Unduh Resume (PDF)
-          <Icon icon="ph:arrow-right-light" />
+          <Icon icon="ph:arrow-right-light" width="18" height="18" />
         </a>
       </div>
 
@@ -90,179 +90,101 @@
 </section>
 
 <style>
-  /* ── Ultra Minimalist Base ── */
   .about-minimal {
     padding: 8rem 10%;
-    background: var(--white, #f4f5f7); /* Menggunakan putih/krem sangat terang agar super clean */
-    color: var(--navy, #2A4D88);
+    background: var(--white);
+    color: var(--navy);
     position: relative;
   }
-  
-  .minimal-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-  }
 
-  .eyebrow {
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--gold, #7C94B8);
-    margin-bottom: 4rem;
-  }
+  .minimal-inner { max-width: 1100px; margin: 0 auto; }
+
+  .eyebrow { margin-bottom: 3.5rem; }
 
   .content-split {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6rem;
-    align-items: start;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6rem; align-items: start;
   }
 
-  /* ── Kiri: Statement ── */
+  /* Left */
   .headline {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 4vw, 3.5rem);
-    font-weight: 700;
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
-    color: var(--navy-dark, #1e3d70);
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    font-weight: 700; line-height: 1.1; margin-bottom: 1.5rem; color: var(--navy-dark);
   }
-  .headline em {
-    font-style: italic;
-    color: var(--gold, #7C94B8);
-  }
+  .headline em { font-style: italic; color: var(--gold); }
 
-  .bio {
-    font-size: 1.05rem;
-    line-height: 1.7;
-    color: var(--text-body, #5a6e8a);
-    margin-bottom: 3rem;
-    max-width: 90%;
-  }
+  .bio { font-size: 1rem; line-height: 1.75; color: var(--text-body); margin-bottom: 2.5rem; max-width: 90%; }
+  .bio em { font-style: italic; color: var(--navy); }
 
+  /* Stats */
   .stats-row {
-    display: flex;
-    gap: 3rem;
+    display: flex; align-items: center; gap: 1.5rem;
+    padding: 1.3rem 1rem;
+    background: var(--cream); border: 1px solid var(--border);
+    border-radius: var(--r-md); margin-bottom: 2rem;
   }
-  .stat {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-  }
-  .num {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
-    font-weight: 900;
-    line-height: 1;
-    color: var(--navy-dark);
-  }
-  .label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--text-muted);
-  }
+  .stat { display: flex; flex-direction: column; gap: 0.2rem; flex: 1; align-items: center; }
+  .num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; line-height: 1; color: var(--navy-dark); }
+  .lbl { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); }
+  .stat-div { width: 1px; height: 38px; background: var(--border); flex-shrink: 0; }
 
-  /* ── Kanan: Tech List Editorial ── */
-  .tech-list {
-    display: flex;
-    flex-direction: column;
-    border-top: 1px solid rgba(27, 59, 111, 0.15); /* Garis batas tipis */
-    margin-bottom: 2.5rem;
-  }
-  
-  .tech-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.8rem 0;
-    border-bottom: 1px solid rgba(27, 59, 111, 0.15);
-    transition: padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: default;
-  }
-  
-  .tech-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
-  
-  .tech-cat {
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--gold);
-  }
-  
-  .tech-tools {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: var(--navy);
-  }
-
-  .tech-icon {
-    color: var(--text-muted);
-    opacity: 0.3;
-    transition: all 0.3s ease;
-  }
-
-  /* Interaksi Hover Super Elegan */
-  .tech-row:hover {
-    padding-left: 1rem;
-    border-bottom-color: var(--navy);
-  }
-  .tech-row:hover .tech-icon {
-    opacity: 1;
-    color: var(--navy);
-    transform: scale(1.1);
-  }
-
-  /* Tombol Clean */
   .btn-clean {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.8rem;
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--navy);
-    text-decoration: none;
-    position: relative;
-    padding-bottom: 4px;
+    display: inline-flex; align-items: center; gap: 0.8rem;
+    font-size: 0.82rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--navy); text-decoration: none;
+    position: relative; padding-bottom: 4px;
+    -webkit-tap-highlight-color: transparent;
   }
   .btn-clean::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0;
-    width: 0; height: 1.5px;
-    background: var(--navy);
-    transition: width 0.3s ease;
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 1.5px; background: var(--navy);
+    transition: width 0.3s var(--ease);
   }
   .btn-clean:hover::after { width: 100%; }
 
-  /* ── Animasi Reveal Halus ── */
+  /* Right: tech list */
+  .tech-list {
+    display: flex; flex-direction: column;
+    border-top: 1px solid rgba(27,59,111,0.15);
+    margin-bottom: 2.5rem;
+  }
+  .tech-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.7rem 0; border-bottom: 1px solid rgba(27,59,111,0.12);
+    cursor: default; transition: padding-left 0.3s var(--ease), border-bottom-color 0.3s;
+  }
+  .tech-row:hover { padding-left: 0.75rem; border-bottom-color: var(--navy); }
+  .tech-info { display: flex; flex-direction: column; gap: 0.35rem; }
+  .tech-cat { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gold); }
+  .tech-tools { font-size: 1rem; font-weight: 600; color: var(--navy); }
+  .tech-icon { color: var(--text-muted); opacity: 0.3; transition: opacity 0.3s, color 0.3s, transform 0.3s; }
+  .tech-row:hover .tech-icon { opacity: 1; color: var(--navy); transform: scale(1.1); }
+
+  /* Show/hide CV buttons */
+  .mobile-cv { display: none; }
+
+  /* Fade-up animation via parent .is-visible */
   .fade-up {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0; transform: translateY(18px);
+    transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
   }
-  .is-visible .fade-up {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  .is-visible .fade-up { opacity: 1; transform: none; }
 
   /* ── Responsive ── */
   @media (max-width: 900px) {
-    .content-split {
-      grid-template-columns: 1fr;
-      gap: 4rem;
-    }
-    .about-minimal { padding: 6rem 5%; }
+    .about-minimal { padding: 5.5rem 5%; }
+    .eyebrow { margin-bottom: 2.5rem; }
+    .content-split { grid-template-columns: 1fr; gap: 3rem; }
     .bio { max-width: 100%; }
-    .tech-row:hover { padding-left: 0; } /* Matikan geser di mobile agar tidak mengganggu scroll */
+    .tech-row:hover { padding-left: 0; }
+    .desktop-cv { display: none; }
+    .mobile-cv { display: inline-flex; }
+  }
+
+  @media (max-width: 480px) {
+    .stats-row { gap: 0; padding: 1rem 0.5rem; }
+    .num { font-size: 1.5rem; }
+    .tech-tools { font-size: 0.9rem; }
   }
 </style>

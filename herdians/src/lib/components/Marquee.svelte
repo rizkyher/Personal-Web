@@ -1,11 +1,10 @@
 <script>
   const stats = [
-    { value: "2+",  label: "Years Experience" },
-    { value: "10+", label: "Projects Deployed" },
-    { value: "5+",  label: "Global Clients" },
-    { value: "100%",label: "Code Quality" }
+    { value: "2+",   label: "Years Experience" },
+    { value: "10+",  label: "Projects Deployed" },
+    { value: "5+",   label: "Global Clients" },
+    { value: "100%", label: "Code Quality" },
   ];
-
   const infiniteStats = [...stats, ...stats, ...stats, ...stats];
 </script>
 
@@ -23,55 +22,48 @@
 
 <style>
   .marquee-simple {
-    background: var(--cream, #D9D9D8); /* Warna terang/krem agar sangat bersih */
+    background: var(--cream);
     padding: 1rem 0;
     overflow: hidden;
     display: flex;
     position: relative;
-    border-top: 1px solid rgba(42, 77, 136, 0.1);
-    border-bottom: 1px solid rgba(42, 77, 136, 0.1);
+    border-top: 1px solid rgba(42,77,136,0.1);
+    border-bottom: 1px solid rgba(42,77,136,0.1);
   }
+  /* Fade edges */
+  .marquee-simple::before,
+  .marquee-simple::after {
+    content: ''; position: absolute; top: 0; bottom: 0;
+    width: 64px; z-index: 2; pointer-events: none;
+  }
+  .marquee-simple::before { left: 0;  background: linear-gradient(to right, var(--cream), transparent); }
+  .marquee-simple::after  { right: 0; background: linear-gradient(to left,  var(--cream), transparent); }
 
   .marquee-track {
-    display: flex;
-    align-items: center;
+    display: flex; align-items: center;
     width: max-content;
     animation: marqueeScroll 35s linear infinite;
     will-change: transform;
   }
+  .marquee-simple:hover .marquee-track { animation-play-state: paused; }
 
   .marquee-item {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding-right: 0.8rem;
-    white-space: nowrap;
-    color: var(--navy, #2A4D88);
+    display: flex; align-items: center;
+    gap: 0.8rem; padding-right: 0.8rem;
+    white-space: nowrap; color: var(--navy);
   }
-
-  .stat-value {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-  }
-
-  .stat-label {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    opacity: 0.8;
-  }
-
-  .separator {
-    color: var(--gold, #7C94B8);
-    margin-left: 0.8rem;
-    opacity: 0.5;
-  }
+  .stat-value { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 900; }
+  .stat-label { font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; opacity: 0.75; }
+  .separator { color: var(--gold); margin-left: 0.8rem; opacity: 0.5; }
 
   @keyframes marqueeScroll {
-    0% { transform: translateX(0); }
+    0%   { transform: translateX(0); }
     100% { transform: translateX(-50%); }
+  }
+
+  /* Hide label on tiny phones */
+  @media (max-width: 400px) {
+    .stat-label { display: none; }
+    .separator { margin-left: 0.4rem; }
   }
 </style>
