@@ -1,0 +1,347 @@
+<script>
+  import { onMount } from 'svelte';
+  import Icon from '@iconify/svelte';
+
+  let formData = $state({ name: '', email: '', subject: '', message: '' });
+  let sending = $state(false);
+  let sent    = $state(false);
+  let currentTime = $state("");
+
+  onMount(() => {
+    const updateTime = () => {
+      currentTime = new Intl.DateTimeFormat('id-ID', {
+        timeZone: 'Asia/Jakarta',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      }).format(new Date());
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 10000);
+    return () => clearInterval(interval);
+  });
+
+  // Di dalam tag <script> Contact.svelte
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    sending = true;
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        sending = false;
+        sent = true;
+        formData = { name: '', email: '', subject: '', message: '' };
+      } else {
+        alert(result.message || "Gagal mengirim pesan.");
+        sending = false;
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Terjadi kesalahan jaringan.");
+      sending = false;
+    }
+  }
+</script>
+
+<section id="contact" class="contact-section">
+  <div class="aurora-wrap" aria-hidden="true">
+    <div class="aurora-orb orb-1"></div>
+    <div class="aurora-orb orb-2"></div>
+  </div>
+
+  <div class="marquee-bg" aria-hidden="true">
+    <div class="marquee-track">
+      <span>LET'S BUILD SOMETHING GREAT — </span>
+      <span>LET'S BUILD SOMETHING GREAT — </span>
+    </div>
+  </div>
+
+  <div class="contact-inner">
+    
+    <div class="contact-left reveal">
+      
+      <div class="status-widget">
+        <div class="status-indicator">
+          <span class="live-dot"></span>
+          Open for Work
+        </div>
+        <div class="time-indicator">
+          <Icon icon="ph:globe-hemisphere-east-duotone" />
+          <span>Bandung — {currentTime}</span>
+        </div>
+      </div>
+
+      <h2 class="massive-title">
+        Mari mulai <br>
+        <span class="text-gradient">proyek Anda.</span>
+      </h2>
+      
+      <p class="subtitle">
+        Punya tantangan teknis atau butuh sistem skala besar? Kirimkan detailnya, dan mari kita jadikan nyata.
+      </p>
+
+      <div class="direct-contacts">
+        <a href="mailto:rizkyherdiansyah31@gmail.com" class="magnetic-link">
+          <div class="link-content">
+            <span class="link-label">Send an Email</span>
+            <span class="link-value">rizkyherdiansyah31@gmail.com</span>
+          </div>
+          <div class="link-arrow"><Icon icon="ph:arrow-up-right-bold" /></div>
+        </a>
+        
+        <div class="divider-line"></div>
+        
+        <a href="https://wa.me/6285163554496" target="_blank" rel="noopener" class="magnetic-link">
+          <div class="link-content">
+            <span class="link-label">WhatsApp Me</span>
+            <span class="link-value">+62 851 6355 4496</span>
+          </div>
+          <div class="link-arrow"><Icon icon="ph:whatsapp-logo-bold" /></div>
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-right reveal delay-1">
+      <form class="navy-form" onsubmit={handleSubmit}>
+        <div class="panel-texture"></div>
+        
+        <div class="form-content">
+          {#if sent}
+            <div class="success-state">
+              <div class="success-icon">
+                <Icon icon="ph:check-fat-duotone" width="72" height="72" />
+              </div>
+              <h3>Sistem Menerima Pesan.</h3>
+              <p>Terima kasih. Saya akan meninjau ide Anda dan membalasnya secepat mungkin.</p>
+              <button type="button" class="btn-outline-light" onclick={() => sent = false}>
+                Kembali
+              </button>
+            </div>
+          {:else}
+            
+            <div class="form-grid">
+              <div class="input-wrap">
+                <input type="text" id="name" placeholder=" " bind:value={formData.name} required />
+                <label for="name">Nama Lengkap</label>
+                <span class="focus-border"></span>
+              </div>
+
+              <div class="input-wrap">
+                <input type="email" id="email" placeholder=" " bind:value={formData.email} required />
+                <label for="email">Alamat Email</label>
+                <span class="focus-border"></span>
+              </div>
+            </div>
+
+            <div class="input-wrap">
+              <input type="text" id="subject" placeholder=" " bind:value={formData.subject} required />
+              <label for="subject">Subjek / Keperluan</label>
+              <span class="focus-border"></span>
+            </div>
+
+            <div class="input-wrap">
+              <textarea id="message" rows="4" placeholder=" " bind:value={formData.message} required></textarea>
+              <label for="message">Deskripsikan visi atau masalah proyek Anda...</label>
+              <span class="focus-border"></span>
+            </div>
+
+            <button type="submit" class="btn-swipe" disabled={sending}>
+              <span class="btn-text">
+                {sending ? 'Memproses...' : 'Kirim Inisiasi'}
+              </span>
+              <span class="btn-swipe-bg"></span>
+              <Icon icon={sending ? "ph:spinner-gap-bold" : "ph:paper-plane-tilt-fill"} class={sending ? "spin" : "fly-icon"} />
+            </button>
+          {/if}
+        </div>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* ── 1. Base & Aurora (Light Theme) ── */
+  .contact-section {
+    padding: 9rem 10%;
+    background: var(--cream-dark, #D9D9D8); /* Transisi mulus ke Footer */
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .aurora-wrap {
+    position: absolute; inset: 0; z-index: -2; overflow: hidden;
+  }
+  .aurora-orb {
+    position: absolute; border-radius: 50%; filter: blur(100px);
+    animation: floatOrb 20s infinite alternate ease-in-out;
+  }
+  .orb-1 {
+    width: 600px; height: 600px; background: rgba(42, 77, 136, 0.08); /* Navy glow fade */
+    top: -100px; right: -100px;
+  }
+  .orb-2 {
+    width: 500px; height: 500px; background: rgba(124, 148, 184, 0.15); /* Gold glow fade */
+    bottom: -100px; left: -200px; animation-delay: -10s;
+  }
+  @keyframes floatOrb {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-80px, 80px) scale(1.1); }
+  }
+
+  /* ── 2. Outline Marquee (Light Theme) ── */
+  .marquee-bg {
+    position: absolute; top: 15%; left: 0; width: 100%; z-index: -1;
+    pointer-events: none; user-select: none; opacity: 0.1;
+  }
+  .marquee-track {
+    display: flex; white-space: nowrap;
+    animation: scrollBg 60s linear infinite;
+  }
+  .marquee-track span {
+    font-family: 'Playfair Display', serif; font-size: 15vw; font-weight: 900;
+    color: transparent; -webkit-text-stroke: 2px rgba(42, 77, 136, 0.15); /* Navy tipis */
+    padding-right: 2rem;
+  }
+  @keyframes scrollBg { 100% { transform: translateX(-50%); } }
+
+  /* ── Layout Kiri ── */
+  .contact-inner {
+    max-width: 1200px; margin: 0 auto; display: grid;
+    grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+  }
+
+  .status-widget {
+    display: inline-flex; align-items: center; gap: 1.2rem;
+    padding: 0.6rem 1.2rem; margin-bottom: 2.5rem;
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 100px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--navy); box-shadow: 0 4px 15px rgba(27,59,111,0.05);
+  }
+  .status-indicator { display: flex; align-items: center; gap: 0.5rem; }
+  .live-dot { width: 6px; height: 6px; background: #22c55e; border-radius: 50%; animation: blink 1.5s infinite; }
+  @keyframes blink { 50% { opacity: 0.4; } }
+  .time-indicator { display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); border-left: 1px solid var(--border); padding-left: 1.2rem; }
+
+  .massive-title {
+    font-family: 'Playfair Display', serif; font-size: clamp(3rem, 4.5vw, 4.5rem);
+    font-weight: 900; line-height: 1.05; margin-bottom: 1.2rem; color: var(--navy);
+  }
+  .text-gradient {
+    background: linear-gradient(to right, var(--navy), var(--gold));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-style: italic;
+  }
+  .subtitle { font-size: 1rem; line-height: 1.8; color: var(--text-body); max-width: 450px; margin-bottom: 3rem; }
+
+  /* Direct Contacts */
+  .direct-contacts { display: flex; flex-direction: column; gap: 1.5rem; }
+  .divider-line { height: 1px; background: rgba(27,59,111,0.1); width: 100%; max-width: 400px; }
+  
+  .magnetic-link {
+    display: flex; align-items: center; justify-content: space-between;
+    text-decoration: none; max-width: 400px; padding: 0.5rem 0;
+  }
+  .link-content { display: flex; flex-direction: column; gap: 0.3rem; }
+  .link-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; }
+  .link-value { font-size: 1.3rem; color: var(--navy); font-weight: 600; transition: color 0.3s; }
+  .link-arrow {
+    width: 45px; height: 45px; border-radius: 50%; border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center; color: var(--navy); font-size: 1.2rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .magnetic-link:hover .link-value { color: var(--gold); }
+  .magnetic-link:hover .link-arrow { background: var(--navy); color: var(--cream); transform: scale(1.1) rotate(45deg); border-color: var(--navy); }
+
+  /* ── Bagian Kanan: Navy Panel Form (Match Hero) ── */
+  .navy-form {
+    background: linear-gradient(155deg, var(--navy) 0%, #1e3d70 100%); /* Warna yang sama dengan Hero Panel */
+    border-radius: 28px; box-shadow: 0 30px 60px rgba(13,30,59,0.25);
+    position: relative; overflow: hidden; min-height: 520px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .panel-texture {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 22px 22px; pointer-events: none; z-index: 1;
+  }
+  .form-content { position: relative; z-index: 2; padding: 3.5rem; width: 100%; }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .input-wrap { position: relative; margin-bottom: 2.5rem; }
+  
+  .input-wrap input, .input-wrap textarea {
+    width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding: 0.5rem 0; font-family: 'DM Sans', sans-serif; font-size: 1.05rem; color: #fff; outline: none; resize: none;
+    transition: border-color 0.3s;
+  }
+  .input-wrap label {
+    position: absolute; left: 0; top: 0.5rem; font-size: 1rem; color: rgba(255,255,255,0.5); pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Floating UX */
+  .input-wrap input:focus ~ label, .input-wrap textarea:focus ~ label,
+  .input-wrap input:not(:placeholder-shown) ~ label, .input-wrap textarea:not(:placeholder-shown) ~ label {
+    top: -16px; font-size: 0.72rem; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-weight: 700;
+  }
+
+  .focus-border {
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 0; height: 1.5px;
+    background: var(--gold); transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .input-wrap input:focus ~ .focus-border, .input-wrap textarea:focus ~ .focus-border { width: 100%; }
+
+  /* Submit Button Elite Swipe */
+  .btn-swipe {
+    position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.2);
+    background: transparent; padding: 1.2rem 2rem; border-radius: 100px;
+    display: flex; align-items: center; justify-content: center; gap: 0.8rem; cursor: pointer; margin-top: 1rem;
+    transition: border-color 0.3s; width: 100%;
+  }
+  .btn-swipe-bg {
+    position: absolute; top: 0; left: -10%; width: 120%; height: 100%;
+    background: var(--white); transform: translateX(-100%) skewX(-15deg); z-index: 0;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .btn-text, .btn-swipe :global(svg) { position: relative; z-index: 1; transition: color 0.4s; }
+  .btn-text { font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1.5px; }
+  .btn-swipe :global(svg) { font-size: 1.2rem; color: #fff; }
+  
+  .btn-swipe:hover:not(:disabled) .btn-swipe-bg { transform: translateX(0) skewX(0); }
+  .btn-swipe:hover:not(:disabled) .btn-text, .btn-swipe:hover:not(:disabled) :global(svg) { color: var(--navy); }
+  .btn-swipe:hover:not(:disabled) :global(.fly-icon) { transform: translateX(4px) translateY(-4px); }
+  .btn-swipe:disabled { opacity: 0.6; cursor: wait; }
+
+  /* Success State */
+  .success-state { text-align: center; animation: fadeIn 0.6s ease forwards; }
+  .success-icon { color: var(--gold); margin-bottom: 1.5rem; animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+  .success-state h3 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 1rem; color: #fff; }
+  .success-state p { color: rgba(255,255,255,0.7); line-height: 1.7; margin: 0 auto 2.5rem; max-width: 320px; font-size: 0.95rem; }
+  .btn-outline-light { background: transparent; border: 1.5px solid rgba(255,255,255,0.3); color: #fff; padding: 0.8rem 2rem; border-radius: 50px; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; font-weight: 700; letter-spacing: 1.5px; transition: 0.3s; }
+  .btn-outline-light:hover { background: #fff; color: var(--navy); border-color: #fff; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes scaleIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+  :global(.spin) { animation: spin 1s linear infinite; }
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+
+  /* ── Responsive ── */
+  @media (max-width: 960px) {
+    .contact-section { padding: 6rem 5%; }
+    .contact-inner { grid-template-columns: 1fr; gap: 4rem; }
+    .status-widget { flex-direction: column; align-items: flex-start; gap: 0.8rem; border-radius: 16px; padding: 1rem 1.5rem; }
+    .time-indicator { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 0.8rem; width: 100%; }
+    .form-grid { grid-template-columns: 1fr; gap: 0; }
+    .form-content { padding: 2.5rem; }
+  }
+</style>
