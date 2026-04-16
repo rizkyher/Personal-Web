@@ -36,6 +36,7 @@
 		"@iconify/svelte": "^5.2.1",
 		"@types/nodemailer": "^8.0.0",
 		"lucide-svelte": "^1.0.1",
-		"nodemailer": "^8.0.5"
+		"nodemailer": "^8.0.5",
+		"svelte-french-toast": "^1.2.0"
 	}
 }

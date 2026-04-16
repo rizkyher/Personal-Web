@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import Icon from '@iconify/svelte';
+  import toast, { Toaster } from "svelte-french-toast"; // 1. Import Toaster & toast
 
   let formData = $state({ name: '', email: '', subject: '', message: '' });
   let sending = $state(false);
@@ -21,11 +22,15 @@
     return () => clearInterval(interval);
   });
 
-  // Di dalam tag <script> Contact.svelte
-
   async function handleSubmit(e) {
     e.preventDefault();
     sending = true;
+
+    // 2. Tampilkan Toast Loading yang elegan
+    const toastId = toast.loading("Mengirim inisiasi proyek...", {
+      style: "background: #1e3d70; color: #fff; font-family: 'DM Sans', sans-serif; font-size: 0.9rem;",
+      iconTheme: { primary: '#7C94B8', secondary: '#1e3d70' }
+    });
 
     try {
       const response = await fetch('/api/contact', {
@@ -40,17 +45,38 @@
         sending = false;
         sent = true;
         formData = { name: '', email: '', subject: '', message: '' };
+        
+        // 3. Update Toast menjadi Success
+        toast.success("Pesan berhasil terkirim!", {
+          id: toastId,
+          duration: 4000,
+          style: "background: #1e3d70; color: #fff; font-family: 'DM Sans', sans-serif; font-size: 0.9rem;",
+          iconTheme: { primary: '#4ade80', secondary: '#1e3d70' }
+        });
+
       } else {
-        alert(result.message || "Gagal mengirim pesan.");
         sending = false;
+        // 4. Update Toast menjadi Error Server
+        toast.error(result.message || "Gagal mengirim pesan.", {
+          id: toastId,
+          style: "background: #1e3d70; color: #fff; font-family: 'DM Sans', sans-serif;",
+          iconTheme: { primary: '#ef4444', secondary: '#1e3d70' }
+        });
       }
     } catch (error) {
       console.error(error);
-      alert("Terjadi kesalahan jaringan.");
       sending = false;
+      // 5. Update Toast menjadi Error Jaringan
+      toast.error("Terjadi kesalahan jaringan.", {
+        id: toastId,
+        style: "background: #1e3d70; color: #fff; font-family: 'DM Sans', sans-serif;",
+        iconTheme: { primary: '#ef4444', secondary: '#1e3d70' }
+      });
     }
   }
 </script>
+
+<Toaster position="bottom-right" />
 
 <section id="contact" class="contact-section">
   <div class="aurora-wrap" aria-hidden="true">
@@ -173,7 +199,7 @@
   /* ── 1. Base & Aurora (Light Theme) ── */
   .contact-section {
     padding: 9rem 10%;
-    background: var(--cream-dark, #D9D9D8); /* Transisi mulus ke Footer */
+    background: var(--cream-dark, #D9D9D8);
     position: relative;
     overflow: hidden;
     z-index: 1;
@@ -187,11 +213,11 @@
     animation: floatOrb 20s infinite alternate ease-in-out;
   }
   .orb-1 {
-    width: 600px; height: 600px; background: rgba(42, 77, 136, 0.08); /* Navy glow fade */
+    width: 600px; height: 600px; background: rgba(42, 77, 136, 0.08);
     top: -100px; right: -100px;
   }
   .orb-2 {
-    width: 500px; height: 500px; background: rgba(124, 148, 184, 0.15); /* Gold glow fade */
+    width: 500px; height: 500px; background: rgba(124, 148, 184, 0.15);
     bottom: -100px; left: -200px; animation-delay: -10s;
   }
   @keyframes floatOrb {
@@ -210,7 +236,7 @@
   }
   .marquee-track span {
     font-family: 'Playfair Display', serif; font-size: 15vw; font-weight: 900;
-    color: transparent; -webkit-text-stroke: 2px rgba(42, 77, 136, 0.15); /* Navy tipis */
+    color: transparent; -webkit-text-stroke: 2px rgba(42, 77, 136, 0.15);
     padding-right: 2rem;
   }
   @keyframes scrollBg { 100% { transform: translateX(-50%); } }
@@ -264,7 +290,7 @@
 
   /* ── Bagian Kanan: Navy Panel Form (Match Hero) ── */
   .navy-form {
-    background: linear-gradient(155deg, var(--navy) 0%, #1e3d70 100%); /* Warna yang sama dengan Hero Panel */
+    background: linear-gradient(155deg, var(--navy) 0%, #1e3d70 100%);
     border-radius: 28px; box-shadow: 0 30px 60px rgba(13,30,59,0.25);
     position: relative; overflow: hidden; min-height: 520px;
     display: flex; flex-direction: column; justify-content: center;

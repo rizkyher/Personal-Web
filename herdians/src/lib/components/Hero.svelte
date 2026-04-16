@@ -48,17 +48,17 @@
           <Icon icon="mdi:instagram" width="20" height="20" />
         </a>
         
-        <a href="https://www.linkedin.com/in/rizky-herdiansyah-a237a4268/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <!-- <a href="https://www.linkedin.com/in/rizky-herdiansyah-a237a4268/" target="_blank" rel="noopener" aria-label="LinkedIn">
           <Icon icon="mdi:linkedin" width="20" height="20" />
-        </a>
+        </a> -->
         
-        <a href="#" target="_blank" rel="noopener" aria-label="Twitter">
+        <a href="https://x.com/r_herdians?s=11" target="_blank" rel="noopener" aria-label="X (Twitter)">
           <Icon icon="ri:twitter-x-fill" width="18" height="18" />
         </a>
         
-        <a href="#" target="_blank" rel="noopener" aria-label="Facebook">
+        <!-- <a href="#" target="_blank" rel="noopener" aria-label="Facebook">
           <Icon icon="mdi:facebook" width="20" height="20" />
-        </a>
+        </a> -->
       </div>
     </div>
   </div>

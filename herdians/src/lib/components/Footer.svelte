@@ -6,153 +6,263 @@
 
   const socials = [
     { icon: 'mdi:instagram', href: 'https://www.instagram.com/r_herdians/', label: 'Instagram' },
-    { icon: 'mdi:linkedin', href: 'https://www.linkedin.com/in/rizky-herdiansyah-a237a4268/', label: 'LinkedIn' },
-    { icon: 'ri:twitter-x-fill', href: '#', label: 'Twitter' },
-    { icon: 'mdi:github', href: '#', label: 'GitHub' } // Saya ganti Facebook jadi GitHub karena lebih relevan untuk developer
+    // { icon: 'mdi:linkedin', href: 'https://www.linkedin.com/in/rizky-herdiansyah-a237a4268/', label: 'LinkedIn' },
+    { icon: 'ri:twitter-x-fill', href: 'https://x.com/r_herdians?s=11', label: 'X' },
+    { icon: 'mdi:github', href: 'https://github.com/rizkyher', label: 'GitHub' }
   ];
+
+  // Fungsi untuk scroll mulus ke paling atas
+  function scrollToTop(e) {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 </script>
 
-<footer class="footer">
+<footer class="footer-elite">
   <div class="footer-inner">
     
-    <div class="footer-head">
-      <a href="/" class="footer-logo">r<em>herdians</em></a>
-      <div class="footer-contact">
-        <a href="mailto:rizkyherdiansyah31@gmail.com" class="contact-link">
-          <Icon icon="ph:envelope-simple-duotone" width="18" height="18" />
-          rizkyherdiansyah31@gmail.com
+    <div class="footer-grid">
+      
+      <div class="brand-col">
+        <a href="#home" class="logo-wrap" onclick={scrollToTop}>
+          <img src="/logo.png" alt="Logo" class="logo-img" />
+          <span class="logo-text">r<em>herdians</em></span>
         </a>
-        <a href="https://wa.me/6285163554496" class="contact-link" target="_blank" rel="noopener">
-          <Icon icon="ph:whatsapp-logo-duotone" width="18" height="18" />
-          +62 851 6355 4496
-        </a>
+        <p class="brand-desc">
+          Membangun produk digital skala produksi dari antarmuka piksel-sempurna hingga arsitektur server yang tangguh.
+        </p>
       </div>
+
+      <div class="links-col">
+        <h4 class="col-title">Inquiries</h4>
+        <div class="link-group">
+          <a href="mailto:rizkyherdiansyah31@gmail.com" class="hover-line">rizkyherdiansyah31@gmail.com</a>
+          <a href="https://wa.me/6285163554496" target="_blank" rel="noopener" class="hover-line">+62 851 6355 4496</a>
+        </div>
+      </div>
+
+      <div class="links-col">
+        <h4 class="col-title">Connect</h4>
+        <div class="social-list">
+          {#each socials as s}
+            <a href={s.href} target="_blank" rel="noopener" aria-label={s.label} class="social-item">
+              <Icon icon={s.icon} width="18" height="18" class="s-icon" />
+              <span class="hover-line">{s.label}</span>
+            </a>
+          {/each}
+        </div>
+      </div>
+
     </div>
 
-    <div class="divider"></div>
+    <div class="massive-footer-text" aria-hidden="true">
+      HERDIANS
+    </div>
 
     <div class="footer-bottom">
-      <p class="copyright">&copy; {year} {name}. All rights reserved.</p>
+      <p class="copyright">
+        &copy; {year} {name}. <span class="hide-mobile">All rights reserved.</span>
+      </p>
       
-      <div class="socials">
-        {#each socials as s}
-          <a href={s.href} target="_blank" rel="noopener" aria-label={s.label} class="social-icon">
-            <Icon icon={s.icon} width="20" height="20" />
-          </a>
-        {/each}
-      </div>
+      <a href="#home" class="back-to-top" onclick={scrollToTop}>
+        Back to top
+        <div class="arrow-up">
+          <Icon icon="ph:arrow-up-bold" width="16" />
+        </div>
+      </a>
     </div>
 
   </div>
 </footer>
 
 <style>
-  .footer {
-    background: var(--navy-dark);
-    padding: 4rem 10% 3rem;
+  /* ── Base ── */
+  .footer-elite {
+    background: #050b14; /* Sangat gelap, menyambung transisi dari section Contact */
+    color: var(--white, #ffffff);
+    padding: 6rem 10% 2rem;
+    position: relative;
+    overflow: hidden;
   }
   
   .footer-inner {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
   }
 
-  /* --- Top Section --- */
-  .footer-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    flex-wrap: wrap;
-    gap: 2rem;
+  /* ── 1. Top Grid ── */
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 5rem;
   }
 
-  .footer-logo {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: rgba(255, 255, 255, 0.95);
-    text-decoration: none;
-    letter-spacing: 0.5px;
-  }
-  .footer-logo em { font-style: italic; color: var(--gold); }
-
-  .footer-contact {
-    display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
-  }
-  .contact-link {
+  /* Kolom Kiri */
+  .logo-wrap {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.6);
+    gap: 0.6rem;
     text-decoration: none;
-    transition: color 0.2s;
+    margin-bottom: 1.5rem;
+    width: max-content;
   }
-  .contact-link:hover {
-    color: var(--gold);
+  .logo-img {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
+  }
+  .logo-text {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+  }
+  .logo-text em { font-style: italic; color: var(--gold, #7C94B8); }
+
+  .brand-desc {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.5);
+    max-width: 320px;
   }
 
-  /* --- Divider --- */
-  .divider {
+  /* Kolom Links */
+  .col-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.3);
+    margin-bottom: 2rem;
+  }
+
+  .link-group, .social-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  /* Hover Line Effect */
+  .hover-line {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    position: relative;
+    width: max-content;
+    transition: color 0.3s;
+  }
+  .hover-line::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0%;
+    height: 1.5px;
+    background: var(--gold, #7C94B8);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .hover-line:hover, a:hover .hover-line {
+    color: #ffffff;
+  }
+  .hover-line:hover::after, a:hover .hover-line::after {
     width: 100%;
-    height: 1px;
-    background: rgba(255, 255, 255, 0.08);
   }
 
-  /* --- Bottom Section --- */
+  /* Social Items */
+  .social-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .s-icon {
+    color: rgba(255, 255, 255, 0.5);
+    transition: color 0.3s, transform 0.3s;
+  }
+  .social-item:hover .s-icon {
+    color: var(--gold);
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  /* ── 2. Massive Typography ── */
+  .massive-footer-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 14vw; /* Responsif mengikuti lebar layar */
+    font-weight: 900;
+    line-height: 0.8;
+    letter-spacing: -2px;
+    text-align: center;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.06);
+    user-select: none;
+    margin-bottom: 3rem;
+  }
+
+  /* ── 3. Bottom Row ── */
   .footer-bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 1.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .copyright {
     font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.4);
+    font-weight: 500;
+    letter-spacing: 0.5px;
   }
 
-  .socials {
-    display: flex;
-    gap: 1rem;
-  }
-  .social-icon {
+  .back-to-top {
     display: flex;
     align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.4);
+    gap: 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #ffffff;
     text-decoration: none;
-    transition: color 0.2s, transform 0.2s;
+    transition: color 0.3s;
   }
-  .social-icon:hover {
+  .arrow-up {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
     color: var(--gold);
-    transform: translateY(-2px);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s, border-color 0.3s;
+  }
+  .back-to-top:hover { color: var(--gold); }
+  .back-to-top:hover .arrow-up {
+    transform: translateY(-5px);
+    background: #ffffff;
+    border-color: #ffffff;
+    color: #050b14;
   }
 
-  /* --- Responsive --- */
-  @media (max-width: 640px) {
-    .footer {
-      padding: 4rem 6% 2.5rem;
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
     }
-    .footer-head {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1.5rem;
-    }
-    .footer-contact {
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .footer-bottom {
-      flex-direction: column-reverse;
-      align-items: flex-start;
-    }
+    .brand-col { grid-column: 1 / -1; } /* Brand memakan 1 baris penuh di tablet */
+    .brand-desc { max-width: 100%; }
+    .massive-footer-text { font-size: 16vw; margin-bottom: 2rem; }
+  }
+
+  @media (max-width: 600px) {
+    .footer-elite { padding: 5rem 6% 2rem; }
+    .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .massive-footer-text { font-size: 17vw; letter-spacing: -1px; }
+    .footer-bottom { flex-direction: column-reverse; gap: 2rem; align-items: flex-start; }
+    .hide-mobile { display: none; }
   }
 </style>
