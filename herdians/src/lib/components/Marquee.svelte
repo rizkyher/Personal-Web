@@ -1,11 +1,10 @@
 <script>
-  const stats = [
-    { value: "2+",   label: "Years Experience" },
-    { value: "10+",  label: "Projects Deployed" },
-    { value: "5+",   label: "Global Clients" },
-    { value: "100%", label: "Code Quality" },
-  ];
-  const infiniteStats = [...stats, ...stats, ...stats, ...stats];
+  import { i18n } from '$lib/i18n.svelte';
+
+  const infiniteStats = $derived([
+    ...i18n.t.marquee, ...i18n.t.marquee,
+    ...i18n.t.marquee, ...i18n.t.marquee,
+  ]);
 </script>
 
 <div class="marquee-simple" aria-hidden="true">
@@ -27,8 +26,8 @@
     overflow: hidden;
     display: flex;
     position: relative;
-    border-top: 1px solid rgba(42,77,136,0.1);
-    border-bottom: 1px solid rgba(42,77,136,0.1);
+    border-top: 1px solid rgba(73,118,159,0.1);
+    border-bottom: 1px solid rgba(73,118,159,0.1);
   }
   /* Fade edges */
   .marquee-simple::before,

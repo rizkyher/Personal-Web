@@ -1,5 +1,6 @@
 <script>
   import Icon from '@iconify/svelte';
+  import { i18n } from '$lib/i18n.svelte';
 
   const name = "Rizky Herdiansyah";
   const year = new Date().getFullYear();
@@ -10,6 +11,9 @@
     { icon: 'mdi:github', href: 'https://github.com/rizkyher', label: 'GitHub' },
   ];
 
+  /**
+   * @param {MouseEvent} e
+   */
   function scrollToTop(e) {
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -33,9 +37,7 @@
           />
           <span class="logo-text">r<em>herdians</em></span>
         </a>
-        <p class="brand-desc">
-          Membangun produk digital skala produksi dari antarmuka piksel-sempurna hingga arsitektur server yang tangguh.
-        </p>
+        <p class="brand-desc">{i18n.t.footer.desc}</p>
       </div>
 
       <!-- Inquiries -->
@@ -70,10 +72,10 @@
 
     <div class="footer-bottom">
       <p class="copyright">
-        &copy; {year} {name}.<span class="hide-mobile"> All rights reserved.</span>
+        &copy; {year} {name}.<span class="hide-mobile"> {i18n.t.footer.allRights}</span>
       </p>
-      <a href="#home" class="back-to-top" onclick={scrollToTop} aria-label="Kembali ke atas">
-        Back to top
+      <a href="#home" class="back-to-top" onclick={scrollToTop} aria-label={i18n.t.footer.backToTopAria}>
+        {i18n.t.footer.backToTop}
         <div class="arrow-up">
           <Icon icon="ph:arrow-up-bold" width="15" height="15" />
         </div>
@@ -85,7 +87,7 @@
 
 <style>
   .footer-elite {
-    background: #050b14;
+    background: #001D39;
     color: #fff;
     padding: 6rem 10% 2rem;
     position: relative; overflow: hidden;

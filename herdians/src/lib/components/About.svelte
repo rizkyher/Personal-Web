@@ -1,15 +1,26 @@
 <script>
   import { onMount } from 'svelte';
   import Icon from '@iconify/svelte';
+  import { i18n } from '$lib/i18n.svelte';
 
-  const techStack = [
-    { category: "Frontend",          tools: "Svelte 5, React / Next.js, Vue / Nuxt, Tailwind CSS", icon: "ph:browsers-light" },
-    { category: "Backend & Runtime", tools: "Laravel, Node.js, Bun",                               icon: "ph:hard-drives-light" },
-    { category: "Mobile & Design",   tools: "Flutter, Figma",                                      icon: "ph:devices-light" },
+  const techIcons = ["ph:browsers-light", "ph:hard-drives-light", "ph:devices-light"];
+  const techTools = [
+    "Svelte 5, React / Next.js, Vue / Nuxt, Tailwind CSS",
+    "Laravel, Node.js, Bun",
+    "Flutter, Figma",
   ];
 
+  const techStack = $derived(
+    i18n.t.about.techCategories.map((category, i) => ({
+      category,
+      tools: techTools[i],
+      icon: techIcons[i],
+    }))
+  );
+
   let visible  = $state(false);
-  let sectionEl;
+  /** @type {HTMLElement | undefined} */
+  let sectionEl = $state(undefined);
 
   onMount(() => {
     const io = new IntersectionObserver(
@@ -25,40 +36,38 @@
   <div class="minimal-inner">
 
     <div class="minimal-header">
-      <p class="eyebrow">Profil & Arsitektur</p>
+      <p class="eyebrow">{i18n.t.about.eyebrow}</p>
     </div>
 
     <div class="content-split">
 
       <div class="split-left fade-up">
         <h2 class="headline">
-          Arsitektur rapi.<br>
-          <em>Performa tinggi.</em>
+          {i18n.t.about.headline1}<br>
+          <em>{i18n.t.about.headline2}</em>
         </h2>
-        <p class="bio">
-          Sebagai Full Stack Developer dengan pengalaman lebih dari 2 tahun, saya berfokus pada penyelesaian masalah melalui kode yang efisien, mudah dirawat, dan <em>scalable</em>. Dari antarmuka web yang responsif hingga arsitektur server yang tangguh.
-        </p>
+        <p class="bio">{@html i18n.t.about.bio}</p>
 
         <div class="stats-row">
           <div class="stat">
             <span class="num">10+</span>
-            <span class="lbl">Proyek</span>
+            <span class="lbl">{i18n.t.about.stats.projects}</span>
           </div>
           <div class="stat-div"></div>
           <div class="stat">
             <span class="num">2+</span>
-            <span class="lbl">Tahun Exp.</span>
+            <span class="lbl">{i18n.t.about.stats.years}</span>
           </div>
           <div class="stat-div"></div>
           <div class="stat">
             <span class="num">5+</span>
-            <span class="lbl">Klien</span>
+            <span class="lbl">{i18n.t.about.stats.clients}</span>
           </div>
         </div>
 
         <!-- Desktop CV button -->
-        <a href="#" class="btn-clean fade-up desktop-cv" style="transition-delay:0.45s">
-          Unduh Resume (PDF)
+        <a href="/cv-rizky.pdf" target="_blank" rel="noopener" class="btn-clean fade-up desktop-cv" style="transition-delay:0.45s">
+          {i18n.t.about.downloadCV}
           <Icon icon="ph:arrow-right-light" width="18" height="18" />
         </a>
       </div>
@@ -79,8 +88,8 @@
         </div>
 
         <!-- Mobile CV button (shown below tech list) -->
-        <a href="#" class="btn-clean fade-up mobile-cv" style="transition-delay:0.5s">
-          Unduh Resume (PDF)
+        <a href="/cv-rizky.pdf" target="_blank" rel="noopener" class="btn-clean fade-up mobile-cv" style="transition-delay:0.5s">
+          {i18n.t.about.downloadCV}
           <Icon icon="ph:arrow-right-light" width="18" height="18" />
         </a>
       </div>
@@ -115,7 +124,6 @@
   .headline em { font-style: italic; color: var(--gold); }
 
   .bio { font-size: 1rem; line-height: 1.75; color: var(--text-body); margin-bottom: 2.5rem; max-width: 90%; }
-  .bio em { font-style: italic; color: var(--navy); }
 
   /* Stats */
   .stats-row {
@@ -146,12 +154,12 @@
   /* Right: tech list */
   .tech-list {
     display: flex; flex-direction: column;
-    border-top: 1px solid rgba(27,59,111,0.15);
+    border-top: 1px solid rgba(10,65,116,0.15);
     margin-bottom: 2.5rem;
   }
   .tech-row {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 1.7rem 0; border-bottom: 1px solid rgba(27,59,111,0.12);
+    padding: 1.7rem 0; border-bottom: 1px solid rgba(10,65,116,0.12);
     cursor: default; transition: padding-left 0.3s var(--ease), border-bottom-color 0.3s;
   }
   .tech-row:hover { padding-left: 0.75rem; border-bottom-color: var(--navy); }

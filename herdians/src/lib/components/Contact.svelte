@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import Icon from '@iconify/svelte';
   import toast, { Toaster } from 'svelte-french-toast';
+  import { i18n } from '$lib/i18n.svelte';
 
   let formData    = $state({ name: '', email: '', subject: '', message: '' });
   let sending     = $state(false);
@@ -10,7 +11,7 @@
 
   onMount(() => {
     const update = () => {
-      currentTime = new Intl.DateTimeFormat('id-ID', {
+      currentTime = new Intl.DateTimeFormat(i18n.t.contact.locale, {
         timeZone: 'Asia/Jakarta',
         hour: '2-digit', minute: '2-digit', hour12: true
       }).format(new Date());
@@ -20,13 +21,25 @@
     return () => clearInterval(iv);
   });
 
+  $effect(() => {
+    void i18n.lang; // re-run when lang changes to refresh time format
+    currentTime = new Intl.DateTimeFormat(i18n.t.contact.locale, {
+      timeZone: 'Asia/Jakarta',
+      hour: '2-digit', minute: '2-digit', hour12: true
+    }).format(new Date());
+  });
+
+  /**
+   * @param {SubmitEvent} e
+   */
   async function handleSubmit(e) {
     e.preventDefault();
     sending = true;
+    const { toast: t } = i18n.t.contact;
 
-    const toastId = toast.loading('Mengirim inisiasi proyek...', {
-      style: "background:#1e3d70;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.9rem;",
-      iconTheme: { primary: '#B8915A', secondary: '#1e3d70' }
+    const toastId = toast.loading(t.loading, {
+      style: "background:#0A4174;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.9rem;",
+      iconTheme: { primary: '#4E8EA2', secondary: '#0A4174' }
     });
 
     try {
@@ -36,12 +49,12 @@
       if (res.ok && result.success) {
         sent = true;
         formData = { name: '', email: '', subject: '', message: '' };
-        toast.success('Pesan berhasil terkirim!', { id: toastId, duration: 4000, style: "background:#1e3d70;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.9rem;", iconTheme: { primary: '#4ade80', secondary: '#1e3d70' } });
+        toast.success(t.success, { id: toastId, duration: 4000, style: "background:#0A4174;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.9rem;", iconTheme: { primary: '#4ade80', secondary: '#0A4174' } });
       } else {
-        toast.error(result.message || 'Gagal mengirim pesan.', { id: toastId, style: "background:#1e3d70;color:#fff;font-family:'DM Sans',sans-serif;", iconTheme: { primary: '#ef4444', secondary: '#1e3d70' } });
+        toast.error(result.message || t.error, { id: toastId, style: "background:#0A4174;color:#fff;font-family:'DM Sans',sans-serif;", iconTheme: { primary: '#ef4444', secondary: '#0A4174' } });
       }
     } catch {
-      toast.error('Terjadi kesalahan jaringan.', { id: toastId, style: "background:#1e3d70;color:#fff;font-family:'DM Sans',sans-serif;", iconTheme: { primary: '#ef4444', secondary: '#1e3d70' } });
+      toast.error(t.networkError, { id: toastId, style: "background:#0A4174;color:#fff;font-family:'DM Sans',sans-serif;", iconTheme: { primary: '#ef4444', secondary: '#0A4174' } });
     } finally {
       sending = false;
     }
@@ -70,7 +83,7 @@
       <div class="status-widget">
         <div class="status-indicator">
           <span class="live-dot"></span>
-          Open for Work
+          {i18n.t.contact.status}
         </div>
         <div class="time-indicator">
           <Icon icon="ph:globe-hemisphere-east-duotone" width="14" height="14" />
@@ -79,18 +92,16 @@
       </div>
 
       <h2 class="massive-title">
-        Mari mulai<br>
-        <span class="text-gradient">proyek Anda.</span>
+        {i18n.t.contact.titleLine1}<br>
+        <span class="text-gradient">{i18n.t.contact.titleLine2}</span>
       </h2>
 
-      <p class="subtitle">
-        Punya tantangan teknis atau butuh sistem skala besar? Kirimkan detailnya, dan mari kita jadikan nyata.
-      </p>
+      <p class="subtitle">{i18n.t.contact.subtitle}</p>
 
       <div class="direct-contacts">
         <a href="mailto:rizkyherdiansyah31@gmail.com" class="magnetic-link">
           <div class="link-content">
-            <span class="link-label">Send an Email</span>
+            <span class="link-label">{i18n.t.contact.emailLabel}</span>
             <span class="link-value">rizkyherdiansyah31@gmail.com</span>
           </div>
           <div class="link-arrow"><Icon icon="ph:arrow-up-right-bold" width="16" height="16" /></div>
@@ -100,7 +111,7 @@
 
         <a href="https://wa.me/6285163554496" target="_blank" rel="noopener" class="magnetic-link">
           <div class="link-content">
-            <span class="link-label">WhatsApp Me</span>
+            <span class="link-label">{i18n.t.contact.whatsappLabel}</span>
             <span class="link-value">+62 851 6355 4496</span>
           </div>
           <div class="link-arrow"><Icon icon="ph:whatsapp-logo-bold" width="16" height="16" /></div>
@@ -119,38 +130,38 @@
               <div class="success-icon">
                 <Icon icon="ph:check-fat-duotone" width="72" height="72" />
               </div>
-              <h3>Sistem Menerima Pesan.</h3>
-              <p>Terima kasih. Saya akan meninjau ide Anda dan membalasnya secepat mungkin.</p>
-              <button type="button" class="btn-outline-light" onclick={() => sent = false}>Kembali</button>
+              <h3>{i18n.t.contact.success.title}</h3>
+              <p>{i18n.t.contact.success.desc}</p>
+              <button type="button" class="btn-outline-light" onclick={() => sent = false}>{i18n.t.contact.success.back}</button>
             </div>
           {:else}
             <div class="form-grid">
               <div class="input-wrap">
                 <input type="text" id="cname" placeholder=" " bind:value={formData.name} required />
-                <label for="cname">Nama Lengkap</label>
+                <label for="cname">{i18n.t.contact.form.name}</label>
                 <span class="focus-border"></span>
               </div>
               <div class="input-wrap">
                 <input type="email" id="cemail" placeholder=" " bind:value={formData.email} required />
-                <label for="cemail">Alamat Email</label>
+                <label for="cemail">{i18n.t.contact.form.email}</label>
                 <span class="focus-border"></span>
               </div>
             </div>
 
             <div class="input-wrap">
               <input type="text" id="csubject" placeholder=" " bind:value={formData.subject} required />
-              <label for="csubject">Subjek / Keperluan</label>
+              <label for="csubject">{i18n.t.contact.form.subject}</label>
               <span class="focus-border"></span>
             </div>
 
             <div class="input-wrap">
               <textarea id="cmsg" rows="4" placeholder=" " bind:value={formData.message} required></textarea>
-              <label for="cmsg">Deskripsikan visi atau masalah proyek Anda...</label>
+              <label for="cmsg">{i18n.t.contact.form.message}</label>
               <span class="focus-border"></span>
             </div>
 
             <button type="submit" class="btn-swipe" disabled={sending}>
-              <span class="btn-text">{sending ? 'Memproses...' : 'Kirim Inisiasi'}</span>
+              <span class="btn-text">{sending ? i18n.t.contact.form.submitting : i18n.t.contact.form.submit}</span>
               <span class="btn-swipe-bg"></span>
               <Icon
                 icon={sending ? 'ph:spinner-gap-bold' : 'ph:paper-plane-tilt-fill'}
@@ -176,14 +187,14 @@
   /* Aurora */
   .aurora-wrap { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
   .aurora-orb { position: absolute; border-radius: 50%; filter: blur(100px); animation: floatOrb 20s infinite alternate ease-in-out; }
-  .orb-1 { width: 600px; height: 600px; background: rgba(42,77,136,0.08); top: -100px; right: -100px; }
+  .orb-1 { width: 600px; height: 600px; background: rgba(73,118,159,0.08); top: -100px; right: -100px; }
   .orb-2 { width: 500px; height: 500px; background: rgba(124,148,184,0.15); bottom: -100px; left: -200px; animation-delay: -10s; }
   @keyframes floatOrb { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(-80px,80px) scale(1.1)} }
 
   /* Bg marquee */
   .marquee-bg { position: absolute; top: 15%; left: 0; width: 100%; z-index: -1; pointer-events: none; user-select: none; opacity: 0.1; }
   .marquee-track { display: flex; white-space: nowrap; animation: scrollBg 60s linear infinite; }
-  .marquee-track span { font-family: 'Playfair Display', serif; font-size: 15vw; font-weight: 900; color: transparent; -webkit-text-stroke: 2px rgba(42,77,136,0.15); padding-right: 2rem; }
+  .marquee-track span { font-family: 'Playfair Display', serif; font-size: 15vw; font-weight: 900; color: transparent; -webkit-text-stroke: 2px rgba(73,118,159,0.15); padding-right: 2rem; }
   @keyframes scrollBg { 100%{transform:translateX(-50%)} }
 
   /* Layout */
@@ -196,7 +207,7 @@
     background: var(--white); border: 1px solid var(--border);
     border-radius: 100px; font-size: 0.72rem; font-weight: 700;
     text-transform: uppercase; letter-spacing: 1.5px; color: var(--navy);
-    box-shadow: 0 4px 15px rgba(27,59,111,0.05);
+    box-shadow: 0 4px 15px rgba(10,65,116,0.05);
     flex-wrap: wrap; max-width: 100%;
   }
   .status-indicator { display: flex; align-items: center; gap: 0.5rem; }
@@ -206,12 +217,12 @@
 
   /* Title */
   .massive-title { font-family: 'Playfair Display', serif; font-size: clamp(2.6rem, 4.5vw, 4.5rem); font-weight: 900; line-height: 1.05; margin-bottom: 1.2rem; color: var(--navy); }
-  .text-gradient { background: linear-gradient(to right, var(--navy), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-style: italic; }
+  .text-gradient { background: linear-gradient(to right, var(--navy), var(--gold)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-style: italic; }
   .subtitle { font-size: 1rem; line-height: 1.8; color: var(--text-body); max-width: 450px; margin-bottom: 3rem; }
 
   /* Magnetic links */
   .direct-contacts { display: flex; flex-direction: column; gap: 1.5rem; }
-  .divider-line { height: 1px; background: rgba(27,59,111,0.1); width: 100%; max-width: 420px; }
+  .divider-line { height: 1px; background: rgba(10,65,116,0.1); width: 100%; max-width: 420px; }
   .magnetic-link { display: flex; align-items: center; justify-content: space-between; text-decoration: none; max-width: 420px; padding: 0.5rem 0; -webkit-tap-highlight-color: transparent; }
   .link-content { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; flex: 1; margin-right: 1rem; }
   .link-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; flex-shrink: 0; }
@@ -222,8 +233,8 @@
 
   /* Navy form */
   .navy-form {
-    background: linear-gradient(155deg, var(--navy) 0%, #1e3d70 100%);
-    border-radius: 28px; box-shadow: 0 30px 60px rgba(13,30,59,0.25);
+    background: linear-gradient(155deg, var(--navy) 0%, #001D39 100%);
+    border-radius: 28px; box-shadow: 0 30px 60px rgba(0,29,57,0.25);
     position: relative; overflow: hidden; min-height: 520px;
     display: flex; flex-direction: column; justify-content: center;
   }

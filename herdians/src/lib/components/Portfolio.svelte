@@ -1,52 +1,31 @@
 <script>
   import Icon from '@iconify/svelte';
+  import { i18n } from '$lib/i18n.svelte';
 
-  const projects = [
-    {
-      title: "INISIASI",
-      desc: "Sistem Manajemen Edukasi komprehensif yang mencakup modul tahun akademik, profil siswa, hingga tracking hafalan.",
-      tag: "EdTech System", year: "2026",
-      icon: "ph:student-duotone", accent: "#1a365d",
-      tech: ["Svelte 5", "Laravel", "Tailwind"],
-      link: "https://inisiasi.sekolahimpian.com/"
-    },
-    {
-      title: "Khwarizmi",
-      desc: "Platform edukasi vokasi untuk IT dan desain digital, dilengkapi dengan sistem rekrutmen magang terintegrasi.",
-      tag: "E-Learning", year: "2026",
-      icon: "ph:code-block-duotone", accent: "#2c4a7c",
-      tech: ["HTML", "Tailwind", "JavaScript"],
-      link: "https://khwarizmi.co.id/"
-    },
-    {
-      title: "Mayuppi",
-      desc: "Website profil dan sistem informasi sekolah dengan antarmuka yang bersih, minimalis, dan sangat responsif.",
-      tag: "School CMS", year: "2025",
-      icon: "ph:buildings-duotone", accent: "#1e3a8a",
-      tech: ["HTML", "JavaScript", "Tailwind"],
-      link: "https://mayuppi.sch.id/"
-    },
-    {
-      title: "Portal SI",
-      desc: "Portal sistem informasi terpadu dengan dashboard performa tinggi untuk manajemen data dan operasional harian.",
-      tag: "Web Portal", year: "2025",
-      icon: "ph:globe-hemisphere-west-duotone", accent: "#0f172a",
-      tech: ["Laravel", "Tailwind", "MySQL", "Flutter"],
-      link: "https://portalsi.com/"
-    },
+  const projectsBase = [
+    { title: "INISIASI", year: "2026", icon: "ph:student-duotone",              accent: "#001D39", tech: ["Svelte 5", "Laravel", "Tailwind"],            link: "https://inisiasi.sekolahimpian.com/" },
+    { title: "Khwarizmi", year: "2026", icon: "ph:code-block-duotone",          accent: "#0A4174", tech: ["HTML", "Tailwind", "JavaScript"],             link: "https://khwarizmi.co.id/" },
+    { title: "Mayuppi",   year: "2025", icon: "ph:buildings-duotone",            accent: "#49769F", tech: ["HTML", "JavaScript", "Tailwind"],             link: "https://mayuppi.sch.id/" },
+    { title: "Portal SI", year: "2025", icon: "ph:globe-hemisphere-west-duotone",accent: "#4E8EA2", tech: ["Laravel", "Tailwind", "MySQL", "Flutter"],    link: "https://portalsi.com/" },
   ];
+
+  const projects = $derived(
+    projectsBase.map((p, i) => ({
+      ...p,
+      desc: i18n.t.portfolio.projects[i].desc,
+      tag:  i18n.t.portfolio.projects[i].tag,
+    }))
+  );
 </script>
 
 <section id="portfolio" class="portfolio-section">
   <div class="portfolio-inner">
 
     <div class="section-header reveal">
-      <p class="eyebrow">Selected Works</p>
+      <p class="eyebrow">{i18n.t.portfolio.eyebrow}</p>
       <div class="header-row">
-        <h2 class="section-title">Proyek <em>Pilihan.</em></h2>
-        <p class="header-desc">
-          Kumpulan karya terbaik yang menggabungkan desain elegan dengan arsitektur kode yang tangguh.
-        </p>
+        <h2 class="section-title">{i18n.t.portfolio.title} <em>{i18n.t.portfolio.titleEm}</em></h2>
+        <p class="header-desc">{i18n.t.portfolio.desc}</p>
       </div>
     </div>
 
@@ -69,7 +48,7 @@
                 {/each}
               </div>
               <a href={project.link} target="_blank" rel="noopener" class="btn-visit">
-                <span>Kunjungi Website</span>
+                <span>{i18n.t.portfolio.visitBtn}</span>
                 <div class="icon-circle">
                   <Icon icon="ph:arrow-up-right-bold" width="16" height="16" />
                 </div>
@@ -119,7 +98,7 @@
 
           <div class="mc-foot">
             <a href={project.link} target="_blank" rel="noopener" class="mc-link">
-              Kunjungi Website
+              {i18n.t.portfolio.visitBtn}
               <span class="mc-arrow">
                 <Icon icon="ph:arrow-up-right-bold" width="13" height="13" />
               </span>
@@ -209,7 +188,7 @@
     display: flex; flex-direction: column;
     transition: transform 0.28s var(--ease), box-shadow 0.28s;
   }
-  .mc:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(27,59,111,0.1); }
+  .mc:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(10,65,116,0.1); }
 
   .mc-head {
     display: flex; align-items: center; justify-content: space-between;
@@ -233,7 +212,7 @@
   .mc-pills { display: flex; flex-wrap: wrap; gap: 0.35rem; }
   .mc-pill {
     padding: 0.28rem 0.65rem;
-    background: rgba(27,59,111,0.06); border: 1px solid var(--border);
+    background: rgba(10,65,116,0.06); border: 1px solid var(--border);
     border-radius: var(--r-full); font-size: 0.68rem; font-weight: 600; color: var(--text-muted);
   }
 
@@ -259,9 +238,21 @@
     .portfolio-section { padding: 5.5rem 5%; }
     .cards-stack { display: none; }
     .mobile-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.1rem;
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 1.25rem;
+      padding-bottom: 2rem;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE/Edge */
+    }
+    .mobile-cards::-webkit-scrollbar { display: none; }
+    .mc {
+      flex: 0 0 85%;
+      max-width: 340px;
+      scroll-snap-align: center;
     }
     .section-header { margin-bottom: 3rem; }
     .header-row { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
@@ -269,6 +260,6 @@
   }
 
   @media (max-width: 380px) {
-    .mobile-cards { grid-template-columns: 1fr; }
+    .mc { flex: 0 0 90%; }
   }
 </style>

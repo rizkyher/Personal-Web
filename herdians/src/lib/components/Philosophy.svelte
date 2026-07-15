@@ -1,4 +1,5 @@
 <script>
+  import { i18n } from '$lib/i18n.svelte';
   const name = "Rizky Herdiansyah";
 </script>
 
@@ -7,13 +8,12 @@
     <span class="quote-mark" aria-hidden="true">"</span>
 
     <blockquote class="quote-text">
-      Kode yang baik bukan hanya yang bekerja — tapi yang mudah dipahami,
-      dirawat, dan terus berkembang bersama kebutuhan pengguna.
+      {i18n.t.philosophy.quote}
     </blockquote>
 
     <footer class="quote-footer">
       <span class="quote-line"></span>
-      <cite class="quote-author">{name} &nbsp;·&nbsp; Full Stack Philosophy</cite>
+      <cite class="quote-author">{name} &nbsp;·&nbsp; {i18n.t.philosophy.subtitle}</cite>
       <span class="quote-line"></span>
     </footer>
 
